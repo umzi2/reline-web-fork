@@ -1,0 +1,214 @@
+@use "../../../styles/mixins" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+// Two-up field row: minmax(0, 1fr) or long values blow out the track.
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  min-width: 0;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  min-width: 0;
+}
+.sliderLine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+
+  > :first-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.sliderValue {
+  flex: none;
+  width: 72px;
+  padding: 4px 8px;
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+.channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--space-2);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  padding: var(--space-2);
+}
+
+.groupTitle {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modeToggle {
+  @include ghost-button;
+
+  margin-left: var(--space-2);
+  padding: 0 2px;
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+// Classic number field: ONE border wraps the whole control; spin buttons
+// live on the right as a stacked strip separated by a single divider line.
+.stepper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-field);
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: var(--color-primary);
+  }
+}
+
+// Two-class selector wins over the base `.input` module: the container
+// supplies border and background, the input itself is naked.
+.stepper .stepInput {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  text-align: left;
+
+  &:focus {
+    border: none;
+  }
+}
+
+.spinners {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  border-left: 1px solid var(--color-border);
+}
+
+.stepBtn {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+
+  & + .stepBtn {
+    border-top: 1px solid var(--color-border);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    color: var(--color-text);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+    color: var(--color-text);
+  }
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.pathWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.pathMenu {
+  @include popover;
+
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  padding: 2px;
+  // Chromium paints classic custom scrollbars square, so the surface keeps
+  // the radius and clips; only the inner list scrolls (same as add-node menu)
+  overflow: hidden;
+  max-height: 220px;
+
+  button {
+    display: block;
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: calc(var(--radius-sm) - 2px);
+    background: none;
+    color: var(--color-text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    }
+
+    &.active {
+      background: color-mix(in srgb, var(--color-primary) 32%, transparent);
+    }
+  }
+}
+
+.pathMenuList {
+  @include scroll-y;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: calc(220px - 4px);
+}
